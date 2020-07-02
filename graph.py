@@ -92,10 +92,7 @@ for row in entrevistados:
 
 for attr in q7:
     ligaArestas(q7[attr], attr)
-for attr in q4:
-    ligaArestas(q4[attr], attr)
-for attr in q6:
-    ligaArestas(q6[attr], attr)
+
 
 # g.vs["label"] = g.vs['9']
 # g.es["label"] = g.es["estudante"]
