@@ -16,12 +16,15 @@ nA = 0
 
 
 def ligaArestas(v, attr):
-    nA = 0
+    global nA
     for i in range(1, len(v)):
-        g.add_edges([(v[i-1], v[i])])
-        g.es[nA][attr] = True
-        g.es[nA]['color'] = color_dict[attr]
-        nA = nA + 1
+        for j in range(i-1, -1, -1):
+            g.add_edges([(v[i], v[j])])
+            # print(str(v[i]) + '  -  ' + str(v[j]))
+            g.es[nA][attr] = True
+            g.es[nA]['color'] = color_dict[attr]
+            nA = nA + 1
+        # print(v[i])
 
 # dados um atributo e o numero de uma questao cria uma lista de vertices de mesmo atributo (resposta) para dada questao
 def listaAtributosV(attr, quest):
@@ -38,8 +41,6 @@ db = dbConec.cursor()
 db.execute("""SELECT * FROM entrevistado;""")
 
 entrevistados = db.fetchall()
-
-print(entrevistados[len(entrevistados)-1])
 
 
 for row in entrevistados:
@@ -89,16 +90,17 @@ for row in entrevistados:
 
     nV = nV+1
 
-
 for attr in q7:
+    # print(attr)
     ligaArestas(q7[attr], attr)
 
 
 # g.vs["label"] = g.vs['9']
 # g.es["label"] = g.es["estudante"]
 
-print(checkBoxes['q6'])
-print(g.vs['mascaras'])
+# print(checkBoxes['q6'])
+# print(g.vs['mascaras'])
+
 
 layout = g.layout("circle")
 igraph.plot(g)
