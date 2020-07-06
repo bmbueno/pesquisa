@@ -13,21 +13,20 @@ nV = 0
 nA = 0
 
 # dados uma lista de vertices e um atributo cria arestas com este atributo entre cada elemento da lista de vertices
-
-
-def ligaArestas(v, attr):
+def connectVertices(v, color):
     global nA
     for i in range(1, len(v)):
         for j in range(i-1, -1, -1):
             g.add_edges([(v[i], v[j])])
             # print(str(v[i]) + '  -  ' + str(v[j]))
-            g.es[nA][attr] = True
-            g.es[nA]['color'] = color_dict[attr]
+            # g.es[nA][attr] = True
+            g.es[nA]['color'] = color
             nA = nA + 1
         # print(v[i])
 
-# dados um atributo e o numero de uma questao cria uma lista de vertices de mesmo atributo (resposta) para dada questao
-def listaAtributosV(attr, quest):
+
+# dados um atributo/resposta e o numero de uma questao cria uma lista de vertices de mesmo atributo (resposta) para dada questao
+def listVertices(attr, quest):
     if(g.vs[nV][attr]):
         checkBoxes[quest][attr].append(nV)
 
@@ -61,38 +60,38 @@ for row in entrevistados:
     # g.vs[nV]['perfilSocio'] = str(row[5])
 
     for attr in checkBoxes['q7']:
-        listaAtributosV(attr, 'q7')
+        listVertices(attr, 'q7')
 
-    respostas = db.execute(
+    answers = db.execute(
         """SELECT * FROM resposta WHERE entrevistadoID=(?) ;""", [str(row[0])])
 
-    for resposta in respostas:
-        if(resposta[1] != 4 and resposta[1] != 6):
-            g.vs[nV][str(resposta[1])] = resposta[3]
-        elif(resposta[1] == 4):
-            g.vs[nV]['mascaras'] = 'Máscaras' in resposta[3]
-            g.vs[nV]['luvas'] = 'Luvas' in resposta[3]
-            g.vs[nV]['alcoolGel'] = 'gel' in resposta[3]
-            g.vs[nV]['sabao'] = 'Sabão' in resposta[3]
-            g.vs[nV]['nenhumAcesso'] = 'acesso' in resposta[3]
-            g.vs[nV]['nenhumInteresse'] = 'interesse' in resposta[3]
+    for answer in answers:
+        if(answer[1] != 4 and answer[1] != 6):
+            g.vs[nV][str(answer[1])] = answer[3]
+        elif(answer[1] == 4):
+            g.vs[nV]['mascaras'] = 'Máscaras' in answer[3]
+            g.vs[nV]['luvas'] = 'Luvas' in answer[3]
+            g.vs[nV]['alcoolGel'] = 'gel' in answer[3]
+            g.vs[nV]['sabao'] = 'Sabão' in answer[3]
+            g.vs[nV]['nenhumAcesso'] = 'acesso' in answer[3]
+            g.vs[nV]['nenhumInteresse'] = 'interesse' in answer[3]
 
             for attr in checkBoxes['q4']:
-                listaAtributosV(attr, 'q4')
+                listVertices(attr, 'q4')
         else:
-            g.vs[nV]['normal'] = 'Normal' in resposta[3]
-            g.vs[nV]['ansioso'] = 'Ansioso' in resposta[3]
-            g.vs[nV]['depressivo'] = 'Depressivo' in resposta[3]
-            g.vs[nV]['preocupado'] = 'Preocupado' in resposta[3]
+            g.vs[nV]['normal'] = 'Normal' in answer[3]
+            g.vs[nV]['ansioso'] = 'Ansioso' in answer[3]
+            g.vs[nV]['depressivo'] = 'Depressivo' in answer[3]
+            g.vs[nV]['preocupado'] = 'Preocupado' in answer[3]
 
             for attr in checkBoxes['q6']:
-                listaAtributosV(attr, 'q6')
+                listVertices(attr, 'q6')
 
     nV = nV+1
 
 for attr in q7:
     # print(attr)
-    ligaArestas(q7[attr], attr)
+    connectVertices(q7[attr], color_dict[attr])
 
 
 # g.vs["label"] = g.vs['9']
