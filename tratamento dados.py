@@ -1,11 +1,11 @@
 import csv
 import sqlite3
 
-with open('Pesquisa1.csv') as file:
+with open('Pesquisa500.csv') as file:
     fileReader = csv.reader(file, delimiter=',')
 
 
-    dbConec = sqlite3.connect("pesquisaMin.db")
+    dbConec = sqlite3.connect("pesquisa500.db")
     db = dbConec.cursor()
     
     # db.execute('CREATE TABLE perfilSocioEconomico( id INTEGER PRIMARY KEY AUTOINCREMENT, resposta VARCHAR(100) NOT NULL);')

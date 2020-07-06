@@ -20,6 +20,7 @@ def connectVertices(v, color):
             g.add_edges([(v[i], v[j])])
             g.es[nA]['color'] = color
             nA = nA + 1
+        print(v[i])
     
 
 
@@ -32,7 +33,7 @@ def listVertices(attr, quest):
 g = igraph.Graph(0)
 
 
-dbConec = sqlite3.connect("pesquisaMin.db")
+dbConec = sqlite3.connect("pesquisa500.db")
 db = dbConec.cursor()
 
 db.execute("""SELECT * FROM entrevistado;""")
@@ -97,12 +98,16 @@ for attr in q7:
 # Para criar arestas com respostas das demais questoes deve-se utilizar a funcao pronta do igraph "select" pegar os indices
 # dos vertices que correspondem a resposta requerida e utilizar novamente a funcao connectVertives, exemplo:
 
-a = g.vs.select(Q2='Redes sociais, amigos, familiares, grupos de whats.')
-print(a.indices)
-
+a = g.vs.select(Q2='Trabalho/estudo na área da saúde')
 connectVertices(a.indices, 'orange')
 
 layout = g.layout("circle")
-igraph.plot(g)
+igraph.plot(g, layout=layout, vertex_size=10)
+
+# print('Diametro do grafo: ' + str(g.diameter()))
+# print('Densidade do grafo: ' + str(g.density()))
+
+# print('Grau maximo do grafo: ' + str(max(g.degree())))
+# print('Grau minimo do grafo: ' + str(min(g.degree())))
 
 dbConec.close()
