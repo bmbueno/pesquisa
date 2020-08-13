@@ -135,7 +135,7 @@ layout = g.layout("circle")
 igraph.plot(g, vertex_size=10)
 
 print('Diametro do grafo: ' + str(g.diameter()))
-print('Densidade do grafo: ' + str(g.density()))
+print('Densidade do grafo: ' + str(edge_density(g)))
 
 print('Grau maximo do grafo: ' + str(max(g.degree())))
 print('Grau minimo do grafo: ' + str(min(g.degree())))
